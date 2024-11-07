@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Task</h2>
+
+        <!-- Display any error or success message -->
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
+        
+        <form th:action="@{/task/update/{id}(id=${task.taskId})}" method="post">
+            <!-- Hidden fields to pass unchanged task data -->
+            <input type="hidden" th:field="*{task.catId}" />
+            <input type="hidden" th:field="*{task.caseId}" />
+            <input type="hidden" th:field="*{task.dueDate}" />
+        
+            <div class="form-group">
+                <label for="taskDesc">Task Description</label>
+                <textarea class="form-control" id="taskDesc" th:field="*{task.taskDesc}" rows="4" required></textarea>
+            </div>
+        
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" th:field="*{task.status}" required>
+                    <option value="Pending" th:selected="${task.status == 'Pending'}">Pending</option>
+                    <option value="In Progress" th:selected="${task.status == 'In Progress'}">In Progress</option>
+                    <option value="Completed" th:selected="${task.status == 'Completed'}">Completed</option>
+                </select>
+            </div>
+        
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="/task/all" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
